@@ -8,7 +8,7 @@ function page() {
     router.push('/rollcall')
   }, [router])
   return (
-    <main className='h-screen w-screen flex justify-center items-center'>Please wait...</main>
+    <main className='h-screen w-screen flex justify-center items-center text-textSecondary'>Please wait...</main>
   )
 }
 
