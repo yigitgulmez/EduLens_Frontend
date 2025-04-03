@@ -1,2 +1,2 @@
 # EduLens
-Tübitak 4000 B Projesi Frontend
+Front-End of TUBITAK 4000B project

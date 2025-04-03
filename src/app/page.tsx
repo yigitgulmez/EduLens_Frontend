@@ -1,12 +1,15 @@
-import Image from "next/image";
+'use client'
+import { useRouter } from 'next/navigation';
+import { useEffect } from 'react';
 
-const wrapper = "bg-blue-500 text-white px-4 py-2 rounded";
-export default function Home() {
+function page() {
+  const router = useRouter();
+  useEffect(() => {
+    router.push('/rollcall')
+  }, [router])
   return (
-    <main>
-      <div >
-
-      </div>
-    </main>
-  );
+    <main className='h-screen w-screen flex justify-center items-center'>Please wait...</main>
+  )
 }
+
+export default page
