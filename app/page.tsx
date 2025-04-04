@@ -2,7 +2,7 @@
 import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
 
-function page() {
+export default function page() {
   const router = useRouter();
   useEffect(() => {
     router.push('/rollcall')
@@ -11,5 +11,3 @@ function page() {
     <main className='h-screen w-screen flex justify-center items-center text-textSecondary'>Please wait...</main>
   )
 }
-
-export default page

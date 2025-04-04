@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
-import "./globals.css";
+import "@/styles/globals.css";
+import Navbar from "@/components/Navbar";
 
 export const metadata: Metadata = {
   title: "EduLens",
@@ -14,6 +15,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className="flex justify-center w-screen h-screen bg-bgMain">
+        <Navbar/>
         {children}
       </body>
     </html>
