@@ -4,7 +4,6 @@ import { Button } from '@heroui/button';
 import { DatePicker } from "@heroui/date-picker";
 import { Select, SelectItem } from '@heroui/select';
 
-
 export const branchs = [
   {key: "cat", label: "Cat"},
   {key: "dog", label: "Dog"},
@@ -44,25 +43,32 @@ function page() {
         <div className="flex justify-between px-5">
           <div className='flex gap-5'>
             <div>
-              <Select className="w-24" label='Class' items={studentClasses}>
+              <Select className="w-24" placeholder='Class' items={studentClasses}>
                 {(studentClass) => <SelectItem>{studentClass.label}</SelectItem>}
               </Select>
             </div>
             <div>
-              <Select className="w-24" label='Branch' items={branchs}>
+              <Select className="w-24" placeholder='Branch' items={branchs}>
                 {(branch) => <SelectItem>{branch.label}</SelectItem>}
               </Select>
             </div>
           </div>
           <div>
-          <DatePicker className="w-32" label="Date"/>
-          
+            <DatePicker className="w-32 h-"/>
           </div>
         </div>
-        <div className="w-full h-full border-2 border-bgSecondary rounded-2xl flex flex-col overflow-y-scroll p-2">
+        <div className="w-full h-full border-2 border-bgSecondary rounded-2xl flex flex-col gap-2 overflow-y-auto p-2 pr-3">
         {/* {students.map((item) => (
-            <Student img={item.img} name={item.name} number={item.number}/>
+            <Student avatar={item.avatar} name={item.name} number={item.number}/>
           ))} */}
+          <Student avatar={"https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80"} name={"Name"} number={101}/>
+          <Student avatar={"https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80"} name={"Name"} number={101}/>
+          <Student avatar={"https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80"} name={"Name"} number={101}/>
+          <Student avatar={"https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80"} name={"Name"} number={101}/>
+          <Student avatar={"https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80"} name={"Name"} number={101}/>
+          <Student avatar={"https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80"} name={"Name"} number={101}/>
+          <Student avatar={"https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80"} name={"Name"} number={101}/>
+          <Student avatar={"https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80"} name={"Name"} number={101}/>
         </div>
         <div className='px-5 '>
           <Button className='px-3 py-1 bg-white' radius='sm'>Save</Button>
