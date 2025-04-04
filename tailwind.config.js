@@ -20,7 +20,7 @@ const config = {
         bgTertiary: '#EBEBEB',
         textPrimary: '#1A1A1A',
         textSecondary: '#FAFAFA',
-        textTertiary: '#ABABAB',
+        textTertiary: '#7d7d7d',
       }
     },
   },
