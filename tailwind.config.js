@@ -21,7 +21,7 @@ const config = {
         textPrimary: '#1A1A1A',
         textSecondary: '#FAFAFA',
         textTertiary: '#7d7d7d',
-      }
+      },
     },
   },
   darkMode: "class",
