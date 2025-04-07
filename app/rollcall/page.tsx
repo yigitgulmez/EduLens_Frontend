@@ -4,49 +4,17 @@ import { Button } from '@heroui/button';
 import { DatePicker } from "@heroui/date-picker";
 import { Select, SelectItem } from '@heroui/select';
 import { useEffect, useState } from 'react';
+import {getLocalTimeZone, today} from "@internationalized/date";
+import { getId, getClasses } from '@/utils/classes';
 
-export const branchs = [
-  {key: "cat", label: "Cat"},
-  {key: "dog", label: "Dog"},
-  {key: "elephant", label: "Elephant"},
-  {key: "lion", label: "Lion"},
-  {key: "tiger", label: "Tiger"},
-  {key: "giraffe", label: "Giraffe"},
-  {key: "dolphin", label: "Dolphin"},
-  {key: "penguin", label: "Penguin"},
-  {key: "zebra", label: "Zebra"},
-  {key: "shark", label: "Shark"},
-  {key: "whale", label: "Whale"},
-  {key: "otter", label: "Otter"},
-  {key: "crocodile", label: "Crocodile"},
-];
-
-export const studentClasses = [
-  {key: "cat", label: "Cat"},
-  {key: "dog", label: "Dog"},
-  {key: "elephant", label: "Elephant"},
-  {key: "lion", label: "Lion"},
-  {key: "tiger", label: "Tiger"},
-  {key: "giraffe", label: "Giraffe"},
-  {key: "dolphin", label: "Dolphin"},
-  {key: "penguin", label: "Penguin"},
-  {key: "zebra", label: "Zebra"},
-  {key: "shark", label: "Shark"},
-  {key: "whale", label: "Whale"},
-  {key: "otter", label: "Otter"},
-  {key: "crocodile", label: "Crocodile"},
-];
 
 function page() {
   const [studentClass, setStudentClass] = useState<String | undefined>()
   const [branch, setBranch] = useState<String | undefined>()
   const [date, setDate] = useState<number | undefined>()
+  
   useEffect(() => {
-    if (studentClass || branch || date) {
-      // updateTable(studentClass, branch, date)
-    }else {
-      
-    }
+    const studentClass getClasses()
   
   }, [studentClass, branch, date])
   
@@ -76,7 +44,9 @@ function page() {
                   setDate(undefined);
                 }
               }}
-            className="w-32 transition duration-300 transform active:scale-[98%]"/>
+              //TODO minValue={}
+              maxValue={today(getLocalTimeZone())}
+              className="w-32 transition duration-300 transform active:scale-[98%]"/>
           </div>
         </div>
         <div className="w-full h-full border-2 border-bgSecondary rounded-s-2xl flex flex-col gap-2 overflow-y-auto p-2 pr-3">
