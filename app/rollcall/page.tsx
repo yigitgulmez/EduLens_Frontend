@@ -5,17 +5,35 @@ import { DatePicker } from "@heroui/date-picker";
 import { Select, SelectItem } from '@heroui/select';
 import { useEffect, useState } from 'react';
 import {getLocalTimeZone, today} from "@internationalized/date";
-import { getId, getClasses } from '@/utils/classes';
+import { getId, getClassList, getBranchs, getClasses } from '@/utils/classes';
+import { ListClassesType, SelectProps } from '@/types/class';
 
 
 function page() {
-  const [studentClass, setStudentClass] = useState<String | undefined>()
-  const [branch, setBranch] = useState<String | undefined>()
-  const [date, setDate] = useState<number | undefined>()
-  
+  const [classList, setClassList] = useState<ListClassesType>()
+  const [studentClass, setStudentClass] = useState<number>()
+  const [branch, setBranch] = useState<String>()
+  const [date, setDate] = useState<Number>()
+  const [studentClassList, setStudentClassList] = useState<SelectProps[]>([]);
+  const [branchList, setBranchList] = useState<SelectProps[]>([]);
+
+  const fetch = async () => {
+    const data = await getClassList();
+    setClassList(data);
+  }
+
+  useEffect(() => {fetch();},[])
+
   useEffect(() => {
-    const studentClass getClasses()
-  
+    setStudentClassList(getClasses(classList));
+  }, [classList]);
+
+  useEffect(() => {
+    setBranchList(getBranchs(studentClass, classList));
+  }, [studentClass])
+
+  useEffect(() => {
+
   }, [studentClass, branch, date])
   
   return (
@@ -24,13 +42,13 @@ function page() {
         <div className="flex justify-between px-5">
           <div className='flex gap-5 *:transition-all *:duration-200 *:transform active:*:scale-[98%]'>
             <div>
-              <Select className="w-24" onChange={(e) => setStudentClass(e.target.value)} placeholder='Class' items={studentClasses}>
-                {(studentClass) => <SelectItem>{studentClass.label}</SelectItem>}
+              <Select className="w-24" onChange={(e) => setStudentClass(parseInt(e.target.value))} placeholder='Class' items={studentClassList}>
+                {(classes) => <SelectItem>{classes.label}</SelectItem>}
               </Select>
             </div>
             <div>
-              <Select className="w-24" onChange={(e) => setBranch(e.target.value)} placeholder='Branch' items={branchs}>
-                {(branch) => <SelectItem>{branch.label}</SelectItem>}
+              <Select className="w-24" onChange={(e) => setBranch(e.target.value)} placeholder='Branch' items={branchList}>
+                {(branchs) => <SelectItem>{branchs.label}</SelectItem>}
               </Select>
             </div>
           </div>

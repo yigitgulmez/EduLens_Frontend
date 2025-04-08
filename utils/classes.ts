@@ -1,15 +1,10 @@
+import { ApiResponseItem, ListClassesType } from "@/types/class";
+
 const axios = require('axios');
 const url = 'https://localhost:8000/v1/classes';
 const token = 'TOKEN';
 
-interface ResponseItem {
-  id: string;
-  level: number;
-  branch: string;
-}
-
-// API verisini alacak fonksiyon
-async function fetchData(): Promise<ResponseItem[]> {
+async function fetchData(): Promise<ApiResponseItem[]> {
   try {
     const response = await axios.get(url, {
       headers: {
@@ -23,9 +18,30 @@ async function fetchData(): Promise<ResponseItem[]> {
   }
 }
 
-// Level'lara göre branch'leri gruplayan fonksiyon
-function groupByLevel(data: ResponseItem[]): { [key: number]: string[] } {
-  return data.reduce((list: { [key: number]: string[] }, item: ResponseItem) => {
+export const getClassList = async () => {
+  const data = [
+    { "id": "1", "level": 10, "branch": "Z" },
+    { "id": "2", "level": 12, "branch": "Q" },
+    { "id": "3", "level": 10, "branch": "E" },
+    { "id": "4", "level": 11, "branch": "K" },
+    { "id": "5", "level": 10, "branch": "B" },
+    { "id": "6", "level": 9, "branch": "P" },
+    { "id": "7", "level": 11, "branch": "F" },
+    { "id": "8", "level": 9, "branch": "X" },
+    { "id": "9", "level": 9, "branch": "C" },
+    { "id": "10", "level": 11, "branch": "J" },
+    { "id": "11", "level": 11, "branch": "K" },
+    { "id": "12", "level": 12, "branch": "J" },
+    { "id": "13", "level": 9, "branch": "R" },
+    { "id": "14", "level": 10, "branch": "K" },
+    { "id": "15", "level": 12, "branch": "S" },
+    { "id": "16", "level": 11, "branch": "W" },
+    { "id": "17", "level": 9, "branch": "D" },
+    { "id": "18", "level": 12, "branch": "W" },
+    { "id": "19", "level": 9, "branch": "N" },
+    { "id": "20", "level": 9, "branch": "W" }
+  ]   //await fetchData();
+  return data.reduce((list: ListClassesType, item: ApiResponseItem) => {
     if (!list[item.level]) {
       list[item.level] = [];
     }
@@ -34,7 +50,6 @@ function groupByLevel(data: ResponseItem[]): { [key: number]: string[] } {
   }, {});
 }
 
-// Level ve branch kombinasyonlarına göre ID'leri gruplayan fonksiyon
 export async function getId(level: number, branch: string): Promise<string[]> {
   const data = await fetchData();
   return data
@@ -42,12 +57,23 @@ export async function getId(level: number, branch: string): Promise<string[]> {
     .map(item => item.id);
 }
 
-// Ana fonksiyon
-export async function getClasses() {
-  const data = await fetchData();
+export function getClasses(classList: ListClassesType | undefined) {
+  if (!classList) return [];
 
-  const groupedByLevel = groupByLevel(data);
-  console.log('Gruplama (Level):', groupedByLevel);
+  return Object.keys(classList).map(key => ({
+    key: key,
+    label: key
+  }));
+} 
 
-  return groupedByLevel;
+export function getBranchs(selectedClass: number | undefined, classList: ListClassesType | undefined) {
+  if (!selectedClass) return [];
+  const selectedClassValues = classList ? classList[selectedClass]: undefined;
+
+  if (!selectedClassValues) return [];
+
+  return selectedClassValues.map(value => ({
+    key: value,
+    label: value,
+  }));
 }
