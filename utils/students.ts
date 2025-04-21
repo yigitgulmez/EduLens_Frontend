@@ -1,4 +1,4 @@
-import { StudentProps } from "@/types/class";
+import { StudentProps, StudentStatusProps } from "@/types/class";
 
 const axios = require('axios');
 const url = 'https://localhost:8000/v1/attendance';
@@ -95,7 +95,7 @@ async function fetchData(id:string | undefined, date:number | undefined): Promis
   }
 }
 
-async function sendData(data:string[] | undefined){
+async function sendData(data:StudentStatusProps[]) {
   try {
     const response = await axios.post(url, data, {
       headers: {
@@ -113,4 +113,8 @@ async function sendData(data:string[] | undefined){
 export async function getStudents(id: string | undefined, date: number | undefined): Promise<StudentProps[]> {
   const data = await fetchData(id, date);
   return data;
+}
+
+export async function  postStudentPresents(data: StudentStatusProps[]) {
+  sendData(data);
 }

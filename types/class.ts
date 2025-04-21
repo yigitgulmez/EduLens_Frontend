@@ -18,8 +18,15 @@ export interface StudentProps {
 }
 
 export interface StudentComponentProps {
+  id: string,
   avatar: string,
   name: string,
   number: number,
-  present: boolean
+  present: boolean,
+  onPresentChange: (status: StudentStatusProps) => void
+}
+
+export interface StudentStatusProps {
+  studentID: string,
+  isPresent: boolean
 }

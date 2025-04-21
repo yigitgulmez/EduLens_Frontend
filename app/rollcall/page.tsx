@@ -6,8 +6,8 @@ import { Select, SelectItem } from '@heroui/select';
 import { useEffect, useState } from 'react';
 import { getLocalTimeZone, today } from "@internationalized/date";
 import { getId, getClassList, getBranchs, getClasses } from '@/utils/classes';
-import { getStudents } from '@/utils/students';
-import { ListClassesProps, SelectProps, StudentProps } from '@/types/class';
+import { getStudents, postStudentPresents } from '@/utils/students';
+import { ListClassesProps, SelectProps, StudentProps, StudentStatusProps } from '@/types/class';
 
 
 function page() {
@@ -18,6 +18,7 @@ function page() {
   const [branch, setBranch] = useState<string>()
   const [date, setDate] = useState<number>()
   const [students, setStudents] = useState<StudentProps[]>([])
+  const [studentStatus, setStudentStatus] = useState<StudentStatusProps[]>([]);
 
   const fetch = async () => {
     const data = await getClassList();
@@ -25,19 +26,35 @@ function page() {
     console.log(data);
   }
 
+  const saveStudent = async () => {
+    const statusList = students.map(({ id, isPresent }) => ({
+      studentID: id,
+      isPresent
+    }));
+    postStudentPresents(statusList);
+    console.log("statuslist", statusList);
+  }
+
+
+  const handlePresentChange = (status: StudentStatusProps) => {
+    const updatedStudents = students.map((student) =>
+      student.id === status.studentID ? { ...student, isPresent: status.isPresent } : student
+    );
+    setStudents(updatedStudents);
+  };
+
   useEffect(() => {fetch();},[])
 
   useEffect(() => {
     setStudentClassList(getClasses(classList));
-    console.log("studentclasslist", studentClassList);
   }, [classList]);
 
   useEffect(() => {
     setBranchList(getBranchs(studentClass, classList));
-    console.log("studentClass", studentClass);
   }, [studentClass])
 
   useEffect(() => {
+
     const fetch = async () => {
       const id = await getId(studentClass, branch);
       const students = await getStudents(id, 1713700100);
@@ -75,7 +92,7 @@ function page() {
                   setDate(undefined);
                 }
               }}
-              //TODO minValue={}
+              //TODO minValue={} sınıfların yanında date leride çekicek bir fuc oluşturup en küçük dateyi alıp onu buaya ekleyeceğiz hade kolay gele :D
               value={today(getLocalTimeZone())}
               maxValue={today(getLocalTimeZone())}
               className="w-32 transition duration-300 transform active:scale-[98%]"/>
@@ -83,19 +100,11 @@ function page() {
         </div>
         <div className="w-full h-full border-2 border-bgSecondary rounded-s-2xl flex flex-col gap-2 overflow-y-auto p-2 pr-3">
         {students.map((item) => (
-            <Student avatar={item.studentImage} name={item.firstName+" "+item.lastName} number={item.schollNumber} present={item.isPresent}/>
+            <Student id={item.id} avatar={item.studentImage} name={item.firstName+" "+item.lastName} number={item.schollNumber} present={item.isPresent} onPresentChange={handlePresentChange}/>
           ))}
-          {/* <Student avatar={"https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80"} name={"Name"} number={101} present={false}/> */}
-          {/* <Student avatar={"https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80"} name={"Name"} number={101} present={false}/> */}
-          {/* <Student avatar={"https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80"} name={"Name"} number={101} present={true}/> */}
-          {/* <Student avatar={"https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80"} name={"Name"} number={101} present={true}/> */}
-          {/* <Student avatar={"https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80"} name={"Name"} number={101} present={true}/> */}
-          {/* <Student avatar={"https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80"} name={"Name"} number={101} present={false}/> */}
-          {/* <Student avatar={"https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80"} name={"Name"} number={101} present={false}/> */}
-          {/* <Student avatar={"https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80"} name={"Name"} number={101} present={true}/> */}
         </div>
         <div className='px-5 '>
-          <Button className='px-3 py-1 bg-white' radius='sm'>Save</Button>
+          <Button className='px-3 py-1 bg-white' onPress={() => saveStudent()} radius='sm'>Save</Button>
         </div>
       </div>
     </main>
@@ -103,3 +112,11 @@ function page() {
 }
 
 export default page
+{/* <Student avatar={"https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80"} name={"Name"} number={101} present={false}/> */}
+{/* <Student avatar={"https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80"} name={"Name"} number={101} present={false}/> */}
+{/* <Student avatar={"https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80"} name={"Name"} number={101} present={true}/> */}
+{/* <Student avatar={"https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80"} name={"Name"} number={101} present={true}/> */}
+{/* <Student avatar={"https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80"} name={"Name"} number={101} present={true}/> */}
+{/* <Student avatar={"https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80"} name={"Name"} number={101} present={false}/> */}
+{/* <Student avatar={"https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80"} name={"Name"} number={101} present={false}/> */}
+{/* <Student avatar={"https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80"} name={"Name"} number={101} present={true}/> */}
