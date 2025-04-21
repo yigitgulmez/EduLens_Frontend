@@ -42,7 +42,8 @@ const data = [
 ]
 
 export const getClassList = async () => {
-  //await fetchData();
+  //const data = await fetchData();
+  data.sort((a, b) => a.branch.localeCompare(b.branch));
   return data.reduce((list: ListClassesProps, item: ClasesResponseProps) => {
     if (!list[item.level]) {
       list[item.level] = [];
