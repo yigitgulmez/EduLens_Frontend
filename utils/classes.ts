@@ -53,7 +53,7 @@ export const getClassList = async () => {
   }, {});
 }
 
-export async function getId(level: number | undefined, branch: string | undefined) {
+export async function getClassId(level: number | undefined, branch: string | undefined) {
   // const data = await fetchData();
   const item = data.find(item => item.level === level && item.branch === branch);
   

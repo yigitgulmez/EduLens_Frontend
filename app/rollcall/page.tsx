@@ -4,11 +4,9 @@ import { Button } from '@heroui/button';
 import { DatePicker } from "@heroui/date-picker";
 import { Select, SelectItem } from '@heroui/select';
 import { useEffect, useState } from 'react';
-import { getLocalTimeZone, today } from "@internationalized/date";
-import { getId, getClassList, getBranchs, getClasses } from '@/utils/classes';
-import { getStudents, postStudentPresents } from '@/utils/students';
+import { getClassId , getClassList, getBranchs, getClasses } from '@/utils/classes';
+import { checkDate, getAttendanceID, getStudents, postStudentPresents, putStudentPresents } from '@/utils/students';
 import { ListClassesProps, SelectProps, StudentProps, StudentStatusProps } from '@/types/class';
-
 
 function page() {
   const [studentClassList, setStudentClassList] = useState<SelectProps[]>([]);
@@ -17,24 +15,34 @@ function page() {
   const [studentClass, setStudentClass] = useState<number>()
   const [branch, setBranch] = useState<string>()
   const [date, setDate] = useState<number>()
+  const [unixTimestamp, setUnixTimestamp] = useState<number>()
   const [students, setStudents] = useState<StudentProps[]>([])
-  const [studentStatus, setStudentStatus] = useState<StudentStatusProps[]>([]);
+  const [isDate, setIsDate] = useState<boolean>()
+  const [attendanceID, setAttendanceID] = useState<string>()
+  const [classID, setClassID] = useState<string>()
 
-  const fetch = async () => {
-    const data = await getClassList();
-    setClassList(data);
-    console.log(data);
-  }
+  const fetchClassData = async () => {
+    try {
+      const data = await getClassList();
+      setClassList(data);
+    } catch (error) {
+      console.error("Error fetching class data:", error);
+    }
+  };
 
   const saveStudent = async () => {
-    const statusList = students.map(({ id, isPresent }) => ({
-      studentID: id,
-      isPresent
-    }));
-    postStudentPresents(statusList);
-    console.log("statuslist", statusList);
+    const statusList: StudentStatusProps[] = students
+    .map(classItem => classItem.students.map(student => ({
+      studentID: student.id,
+      isPresent: student.isPresent
+    })))
+    .flat();
+    if (isDate) { 
+      await putStudentPresents(attendanceID, statusList);
+    } else {
+      await postStudentPresents(classID, statusList);
+    }
   }
-
 
   const handlePresentChange = (status: StudentStatusProps) => {
     const updatedStudents = students.map((student) =>
@@ -43,7 +51,7 @@ function page() {
     setStudents(updatedStudents);
   };
 
-  useEffect(() => {fetch();},[])
+  useEffect(() => {fetchClassData();},[])
 
   useEffect(() => {
     setStudentClassList(getClasses(classList));
@@ -54,15 +62,34 @@ function page() {
   }, [studentClass])
 
   useEffect(() => {
+    const currentDate = new Date();
+    currentDate.setHours(0, 0, 0, 0);
+    setUnixTimestamp(Math.floor(currentDate.getTime() / 1000));
 
     const fetch = async () => {
-      const id = await getId(studentClass, branch);
-      const students = await getStudents(id, 1713700100);
+      const classID = await getClassId(studentClass, branch);
+      const attendanceID = await getAttendanceID(classID, unixTimestamp);
+      setClassID(classID);
+      setAttendanceID(attendanceID);
+      const check = await checkDate(classID, unixTimestamp);
+      setIsDate(check);
+      var students: StudentProps[] = [];
+      if (date == unixTimestamp && check) {
+        students = await getStudents(classID, unixTimestamp);
+        
+      }
+      else {
+        students = await getStudents(classID, unixTimestamp);
+
+      }
       setStudents(students);
+      console.log("-----------------------");
       console.log(students);
+      console.log(unixTimestamp);
+      console.log("AttendanceID",attendanceID);
+      console.log("ClassID",classID);
     };
     fetch();
-    console.log("branch", branch);
   }, [studentClass, branch, date])
   
   return (
@@ -82,8 +109,9 @@ function page() {
             </div>
           </div>
           <div>
-            <DatePicker 
-                
+            <DatePicker
+                id='date'
+                onLoad={() => {}}
                 onChange={(value) => {
                 if (value && "toDate" in value) {
                   const timestamp = value.toDate("UTC").getTime();
@@ -92,16 +120,14 @@ function page() {
                   setDate(undefined);
                 }
               }}
-              //TODO minValue={} sınıfların yanında date leride çekicek bir fuc oluşturup en küçük dateyi alıp onu buaya ekleyeceğiz hade kolay gele :D
-              value={today(getLocalTimeZone())}
-              maxValue={today(getLocalTimeZone())}
               className="w-32 transition duration-300 transform active:scale-[98%]"/>
           </div>
         </div>
         <div className="w-full h-full border-2 border-bgSecondary rounded-s-2xl flex flex-col gap-2 overflow-y-auto p-2 pr-3">
-        {students.map((item) => (
-            <Student id={item.id} avatar={item.studentImage} name={item.firstName+" "+item.lastName} number={item.schollNumber} present={item.isPresent} onPresentChange={handlePresentChange}/>
-          ))}
+        {students && students.flatMap((item) => 
+        item.students.map((student) =>(
+            <Student id={student.id} avatar={student.studentImage} name={student.firstName+" "+student.lastName} number={student.schollNumber} present={student.isPresent} onPresentChange={handlePresentChange}/>
+          )))}
         </div>
         <div className='px-5 '>
           <Button className='px-3 py-1 bg-white' onPress={() => saveStudent()} radius='sm'>Save</Button>

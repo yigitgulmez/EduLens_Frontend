@@ -8,13 +8,19 @@ export interface ListClassesProps { [key: number]: string[] }
 
 export interface SelectProps { key: string, label: string }
 
-export interface StudentProps { 
-  id: string, 
-  studentImage: string,
-  schollNumber: number,
-  firstName: string,
-  lastName: string,
-  isPresent: boolean
+export interface StudentProps {
+  id: string,
+  level: number,
+  branch: string,
+  students: {
+    id: string, 
+    studentImage: string,
+    schollNumber: number,
+    firstName: string,
+    lastName: string,
+    isPresent: boolean
+  }[],
+  createdAt: number
 }
 
 export interface StudentComponentProps {

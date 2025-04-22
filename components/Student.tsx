@@ -4,7 +4,6 @@ import {Avatar} from "@heroui/avatar";
 import { StudentComponentProps } from "@/types/class";
 import { useEffect, useState } from "react";
 
-
 const Student: React.FC<StudentComponentProps> = ({id, avatar, name, number, present, onPresentChange}) => {
 const [isPresent, setIsPresent] = useState<boolean>(present);
 const presentChange = () => {
