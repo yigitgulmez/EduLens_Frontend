@@ -15,7 +15,7 @@ function page() {
   const [studentClass, setStudentClass] = useState<number>()
   const [branch, setBranch] = useState<string>()
   const [date, setDate] = useState<number>()
-  const [students, setStudents] = useState<StudentProps[]>([])
+  const [students, setStudents] = useState<StudentProps>()
   const [isDate, setIsDate] = useState<boolean>()
   const [attendanceID, setAttendanceID] = useState<string>()
   const [classID, setClassID] = useState<string>()
@@ -31,14 +31,18 @@ function page() {
 
   const saveStudent = async () => {
     try {
-      const statusList: StudentStatusProps[] = students
-        .map(classItem => classItem.students.map(student => ({
-          studentID: student.id,
-          isPresent: student.isPresent
-        })))
-        .flat();
-        console.error("status list: ", statusList, "students: ",students);
-      if (isDate) { 
+      if (!students) {
+        console.error("Öğrenci verisi bulunamadı.");
+        return;
+      }
+      const statusList: StudentStatusProps[] = students.students.map(student => ({
+        studentID: student.id,
+        isPresent: student.isPresent,
+      }));
+  
+      console.log("status list:", statusList);
+  
+      if (isDate) {
         await putStudentPresents(attendanceID, statusList);
       } else {
         await postStudentPresents(classID, statusList);
@@ -46,14 +50,26 @@ function page() {
     } catch (error) {
       console.error("Error saving student presents:", error);
     }
-  }
+  };
 
   const handlePresentChange = (status: StudentStatusProps) => {
-    const updatedStudents = students.map((student) =>
-      student.id === status.studentID ? { ...student, isPresent: status.isPresent } : student
+    const updatedStudents = students?.students.map((student) =>
+      student.id === status.studentID
+        ? { ...student, isPresent: status.isPresent }
+        : student
     );
-    setStudents(updatedStudents);
+  
+    if (updatedStudents) {
+      setStudents(prevState => ({
+        id: prevState?.id ?? "",
+        level: prevState?.level ?? 0,
+        branch: prevState?.branch ?? "",
+        createdAt: prevState?.createdAt ?? Date.now(),
+        students: updatedStudents,
+      }));
+    }
   };
+  
 
   useEffect(() => {fetchClassData();},[])
 
@@ -89,7 +105,7 @@ function page() {
       setAttendanceID(attendanceID);
       setIsDate(check);
   
-      let students: StudentProps[] = [];
+      let students: StudentProps | undefined;
   
       if (date == unix && check) students = await getStudents(classID, undefined);
       else students = await getStudents(classID, date);
@@ -138,10 +154,17 @@ function page() {
           </div>
         </div>
         <div className="w-full h-full border-2 border-bgSecondary rounded-s-2xl flex flex-col gap-2 overflow-y-auto p-2 pr-3">
-        {students && students.flatMap((item) => 
-        item.students.map((student) =>(
-            <Student id={student.id} avatar={student.studentImage} name={student.firstName+" "+student.lastName} number={student.schoolNumber} present={student.isPresent} onPresentChange={handlePresentChange}/>
-          )))}
+        {students && students.students && students.students.map((student) => (
+          <Student
+            key={student.id}
+            id={student.id}
+            avatar={student.studentImage}
+            name={student.firstName + " " + student.lastName}
+            number={student.schoolNumber}
+            present={student.isPresent}
+            onPresentChange={handlePresentChange}
+          />
+        ))}
         </div>
         <div className='px-5 '>
           <Button className='px-3 py-1 bg-white' onPress={() => saveStudent()} radius='sm'>Save</Button>
