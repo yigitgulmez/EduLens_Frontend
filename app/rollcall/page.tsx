@@ -65,7 +65,7 @@ function page() {
       console.log("fetch started");
       const currentDate = new Date();
       currentDate.setHours(0, 0, 0, 0);
-      const unix = Math.floor(currentDate.getTime() / 1000);
+      const unix = Math.floor(currentDate.getTime());
   
       console.log("getClassId çağrılıyor");
       const classID = await getClassId(studentClass, branch);
@@ -92,7 +92,7 @@ function page() {
       setStudents(students);
       console.log("-----------------------");
       console.log(students);
-      console.log(unix);
+      console.log(date);
       console.log("AttendanceID", attendanceID);
       console.log("ClassID", classID);
       console.log("-----------------------");
