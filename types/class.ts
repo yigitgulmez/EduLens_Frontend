@@ -15,7 +15,7 @@ export interface StudentProps {
   students: {
     id: string, 
     studentImage: string,
-    scholNumber: number,
+    schoolNumber: number,
     firstName: string,
     lastName: string,
     isPresent: boolean

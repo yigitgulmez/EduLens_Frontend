@@ -135,7 +135,7 @@ function page() {
         <div className="w-full h-full border-2 border-bgSecondary rounded-s-2xl flex flex-col gap-2 overflow-y-auto p-2 pr-3">
         {students && students.flatMap((item) => 
         item.students.map((student) =>(
-            <Student id={student.id} avatar={student.studentImage} name={student.firstName+" "+student.lastName} number={student.scholNumber} present={student.isPresent} onPresentChange={handlePresentChange}/>
+            <Student id={student.id} avatar={student.studentImage} name={student.firstName+" "+student.lastName} number={student.schoolNumber} present={student.isPresent} onPresentChange={handlePresentChange}/>
           )))}
         </div>
         <div className='px-5 '>
