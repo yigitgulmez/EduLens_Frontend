@@ -5,14 +5,14 @@ const url = 'http://localhost:8000/v1/attendance/';
 const token = process.env.API_TOKEN
 // const response = [
 //   {
-//     id: "attandance-001",
+//     id: "class-001",
 //     level: 10,
 //     branch: "A",
 //     students: [
 //       {
 //         id: "stu-1001",
 //         studentImage: "http://localhost:8000/image/1001",
-//         schollNumber: 101,
+//         schoolNumber: 101,
 //         firstName: "Ali",
 //         lastName: "Kaya",
 //         isPresent: true
@@ -20,23 +20,23 @@ const token = process.env.API_TOKEN
 //       {
 //         id: "stu-1002",
 //         studentImage: "http://localhost:8000/image/1002",
-//         schollNumber: 102,
+//         schoolNumber: 102,
 //         firstName: "Fatma",
 //         lastName: "Yıldız",
 //         isPresent: false
 //       }
 //     ],
-//     createdAt: 1745269200
+//     createdAt: 1745625600000
 //   },
 //   {
-//     id: "attandance-002",
+//     id: "class-002",
 //     level: 11,
 //     branch: "B",
 //     students: [
 //       {
 //         id: "stu-2001",
 //         studentImage: "http://localhost:8000/image/2001",
-//         schollNumber: 201,
+//         schoolNumber: 201,
 //         firstName: "Ahmet",
 //         lastName: "Demir",
 //         isPresent: true
@@ -44,23 +44,23 @@ const token = process.env.API_TOKEN
 //       {
 //         id: "stu-2002",
 //         studentImage: "http://localhost:8000/image/2002",
-//         schollNumber: 202,
+//         schoolNumber: 202,
 //         firstName: "Zeynep",
 //         lastName: "Şahin",
 //         isPresent: false
 //       }
 //     ],
-//     createdAt: 1745269200
+//     createdAt: 1745625600000
 //   },
 //   {
-//     id: "attandance-003",
+//     id: "class-003",
 //     level: 12,
 //     branch: "C",
 //     students: [
 //       {
 //         id: "stu-3001",
 //         studentImage: "http://localhost:8000/image/3001",
-//         schollNumber: 301,
+//         schoolNumber: 301,
 //         firstName: "Mert",
 //         lastName: "Çelik",
 //         isPresent: true
@@ -68,13 +68,13 @@ const token = process.env.API_TOKEN
 //       {
 //         id: "stu-3002",
 //         studentImage: "http://localhost:8000/image/3002",
-//         schollNumber: 302,
+//         schoolNumber: 302,
 //         firstName: "Elif",
 //         lastName: "Arslan",
 //         isPresent: true
 //       }
 //     ],
-//     createdAt: 1745269200
+//     createdAt: 1745625600000
 //   }
 // ];
 async function fetchData(id:string | undefined, date:number | undefined): Promise<StudentProps | undefined> {
@@ -89,7 +89,7 @@ async function fetchData(id:string | undefined, date:number | undefined): Promis
     });
     
     return response
-    // const classItem = response.find(item => item.id === id && item.createdAt === date);
+    // const classItem = response.find(item => item.id === id && item.createdAt === 1745625600000);
     // return classItem;
   } catch (error) {
     console.error('Hata:', error);
@@ -130,9 +130,9 @@ export async function putData(endpoint: string | undefined, data:StudentStatusPr
   }
 }
 
-export async function getStudents(id: string | undefined, date: number | undefined): Promise<StudentProps[]> {
+export async function getStudents(id: string | undefined, date: number | undefined): Promise<StudentProps | undefined> {
   const data = await fetchData(id, date);
-  return data ? [data] : [];
+  return data;
 }
 
 export async function getAttendanceID(id: string | undefined, date: number | undefined): Promise<string | undefined> {
