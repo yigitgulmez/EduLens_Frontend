@@ -88,7 +88,7 @@ async function fetchData(id:string | undefined, date:number | undefined): Promis
       }
     });
     
-    return response
+    return response.data
     // const classItem = response.find(item => item.id === id && item.createdAt === 1745625600000);
     // return classItem;
   } catch (error) {
