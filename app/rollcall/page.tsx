@@ -15,7 +15,6 @@ function page() {
   const [studentClass, setStudentClass] = useState<number>()
   const [branch, setBranch] = useState<string>()
   const [date, setDate] = useState<number>()
-  const [unixTimestamp, setUnixTimestamp] = useState<number>()
   const [students, setStudents] = useState<StudentProps[]>([])
   const [isDate, setIsDate] = useState<boolean>()
   const [attendanceID, setAttendanceID] = useState<string>()
@@ -67,7 +66,6 @@ function page() {
       const currentDate = new Date();
       currentDate.setHours(0, 0, 0, 0);
       const unix = Math.floor(currentDate.getTime() / 1000);
-      setUnixTimestamp(unix);
   
       console.log("getClassId çağrılıyor");
       const classID = await getClassId(studentClass, branch);
@@ -88,8 +86,8 @@ function page() {
   
       let students: StudentProps[] = [];
   
-      if (date == unix && check) students = await getStudents(classID, unix);
-      else students = await getStudents(classID, unix);
+      if (date == unix && check) students = await getStudents(classID, undefined);
+      else students = await getStudents(classID, date);
   
       setStudents(students);
       console.log("-----------------------");
