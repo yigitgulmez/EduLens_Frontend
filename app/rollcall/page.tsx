@@ -123,7 +123,7 @@ function page() {
                 onLoad={() => {}}
                 onChange={(value) => {
                 if (value && "toDate" in value) {
-                  const timestamp = Math.floor(value.toDate("UTC").getTime() / 1000);
+                  const timestamp = value.toDate("UTC").getTime();
                   setDate(timestamp);
                 } else {
                   setDate(undefined);
