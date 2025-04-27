@@ -62,34 +62,46 @@ function page() {
   }, [studentClass])
 
   useEffect(() => {
-    const currentDate = new Date();
-    currentDate.setHours(0, 0, 0, 0);
-    setUnixTimestamp(Math.floor(currentDate.getTime() / 1000));
-
     const fetch = async () => {
+      console.log("fetch started");
+      const currentDate = new Date();
+      currentDate.setHours(0, 0, 0, 0);
+      const unix = Math.floor(currentDate.getTime() / 1000);
+      setUnixTimestamp(unix);
+  
+      console.log("getClassId çağrılıyor");
       const classID = await getClassId(studentClass, branch);
-      const attendanceID = await getAttendanceID(classID, unixTimestamp);
-      const check = await checkDate(classID, unixTimestamp);
-
+      console.log("getClassId döndü", classID);
+      
+      console.log("getAttendanceID çağrılıyor");
+      const attendanceID = await getAttendanceID(classID, unix);
+      console.log("getAttendanceID döndü", attendanceID);
+      
+      console.log("checkDate çağrılıyor");
+      const check = await checkDate(classID, unix);
+      console.log("checkDate döndü", check);
+      
+  
       setClassID(classID);
       setAttendanceID(attendanceID);
       setIsDate(check);
-
-      var students: StudentProps[] = [];
-
-      if (date == unixTimestamp && check) students = await getStudents(classID, unixTimestamp);
-      else students = await getStudents(classID, unixTimestamp)
-
+  
+      let students: StudentProps[] = [];
+  
+      if (date == unix && check) students = await getStudents(classID, unix);
+      else students = await getStudents(classID, unix);
+  
       setStudents(students);
       console.log("-----------------------");
       console.log(students);
-      console.log(unixTimestamp);
-      console.log("AttendanceID",attendanceID);
-      console.log("ClassID",classID);
+      console.log(unix);
+      console.log("AttendanceID", attendanceID);
+      console.log("ClassID", classID);
       console.log("-----------------------");
     };
     fetch();
-  }, [studentClass, branch, date])
+    
+  }, [studentClass, branch, date]);
   
   return (
     <main className='h-screen w-screen flex justify-center items-center'>

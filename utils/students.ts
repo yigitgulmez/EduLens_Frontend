@@ -1,7 +1,7 @@
 import { StudentProps, StudentStatusProps } from "@/types/class";
 
 const axios = require('axios');
-const url = 'https://localhost:8000/v1/attendance';
+const url = 'http://localhost:8000/v1/attendance/';
 const token = process.env.API_TOKEN
 // const response = [
 //   {

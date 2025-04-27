@@ -1,7 +1,7 @@
 import { ClasesResponseProps, ListClassesProps } from "@/types/class";
 
 const axios = require('axios');
-const url = 'https://localhost:8000/v1/classes';
+const url = 'http://localhost:8000/v1/classes/';
 const token = process.env.API_TOKEN
 
 async function fetchData(): Promise<ClasesResponseProps[]> {
@@ -56,7 +56,7 @@ export const getClassList = async () => {
 export async function getClassId(level: number | undefined, branch: string | undefined) {
   const data = await fetchData();
   const item = data.find(item => item.level === level && item.branch === branch);
-  
+  console.log("item",item);
   return item ? item.id : "";
 }
 
