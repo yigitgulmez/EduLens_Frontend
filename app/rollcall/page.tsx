@@ -37,7 +37,7 @@ function page() {
           isPresent: student.isPresent
         })))
         .flat();
-  
+        console.error("status list: ", statusList, "students: ",students);
       if (isDate) { 
         await putStudentPresents(attendanceID, statusList);
       } else {
