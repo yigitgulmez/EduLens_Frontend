@@ -30,16 +30,21 @@ function page() {
   };
 
   const saveStudent = async () => {
-    const statusList: StudentStatusProps[] = students
-    .map(classItem => classItem.students.map(student => ({
-      studentID: student.id,
-      isPresent: student.isPresent
-    })))
-    .flat();
-    if (isDate) { 
-      await putStudentPresents(attendanceID, statusList);
-    } else {
-      await postStudentPresents(classID, statusList);
+    try {
+      const statusList: StudentStatusProps[] = students
+        .map(classItem => classItem.students.map(student => ({
+          studentID: student.id,
+          isPresent: student.isPresent
+        })))
+        .flat();
+  
+      if (isDate) { 
+        await putStudentPresents(attendanceID, statusList);
+      } else {
+        await postStudentPresents(classID, statusList);
+      }
+    } catch (error) {
+      console.error("Error saving student presents:", error);
     }
   }
 
