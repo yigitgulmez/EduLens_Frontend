@@ -1,13 +1,13 @@
 'use client'
 import Student from '@/components/Student';
 import { Button } from '@heroui/button';
+import { Alert } from '@heroui/alert';
 import { DatePicker } from "@heroui/date-picker";
 import { Select, SelectItem } from '@heroui/select';
 import { useEffect, useState } from 'react';
 import { getClassId , getClassList, getBranchs, getClasses } from '@/utils/classes';
 import { checkDate, getStudents, postStudentPresents, putStudentPresents } from '@/utils/students';
 import { ListClassesProps, SelectProps, StudentProps, StudentStatusProps } from '@/types/class';
-import { error } from 'console';
 
 function page() {
   const [studentClassList, setStudentClassList] = useState<SelectProps[]>([]);
@@ -21,7 +21,6 @@ function page() {
   const [attendanceID, setAttendanceID] = useState<string>()
   const [classID, setClassID] = useState<string>()
   const [handleSelectChange, setHandleSelectChange] = useState<boolean>()
-  const [oldStudentsData, setOldStudentsData] = useState<StudentProps>()
 
   const fetchClassData = async () => {
     try {
@@ -35,7 +34,7 @@ function page() {
   const saveStudent = async () => {
     try {
       if (!students) {
-        console.error("Öğrenci verisi bulunamadı.");
+        console.error("Öğrenci verisi bulunamadı."); 
         return;
       }
       const statusList: StudentStatusProps[] = students.students.map(student => ({
@@ -45,10 +44,6 @@ function page() {
   
       console.log("status list:", statusList);
 
-      const dbData = await getStudents(classID, date)
-      if (dbData == oldStudentsData) {}
-      else /* ui message */ throw new Error("yoklama verileri değişmiş");
-  
       if (isDate) {
         await putStudentPresents(students.id, statusList);
       } else {
@@ -114,7 +109,6 @@ function page() {
   
       if (date == unix && check) students = await getStudents(classID, undefined);
       else students = await getStudents(classID, date);
-      setOldStudentsData(students)
       setStudents(students);
       console.log("-----------------------");
       console.log(students);
