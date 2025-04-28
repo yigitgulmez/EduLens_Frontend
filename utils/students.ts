@@ -136,10 +136,17 @@ export async function getStudents(id: string | undefined, date: number | undefin
 }
 
 export async function getAttendanceID(id: string | undefined, date: number | undefined): Promise<string | undefined> {
-  const data = await fetchData(id, date);
-  console.log("attadance get data",data);
-  return data?.id;
+  try {
+    const data = await fetchData(id, date);
+    console.log("attendance get data", data);
+    return data?.id;
+    console.log("attandanteData: ", data);
+  } catch (error) {
+    console.error("Error fetching attendance data:", error);
+    return undefined;
+  }
 }
+
 
 export async function postStudentPresents(endpoint:string | undefined, data: StudentStatusProps[]) {
   postData(endpoint, data);
