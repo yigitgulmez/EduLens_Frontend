@@ -5,8 +5,9 @@ import { DatePicker } from "@heroui/date-picker";
 import { Select, SelectItem } from '@heroui/select';
 import { useEffect, useState } from 'react';
 import { getClassId , getClassList, getBranchs, getClasses } from '@/utils/classes';
-import { checkDate, getAttendanceID, getStudents, postStudentPresents, putStudentPresents } from '@/utils/students';
+import { checkDate, getStudents, postStudentPresents, putStudentPresents } from '@/utils/students';
 import { ListClassesProps, SelectProps, StudentProps, StudentStatusProps } from '@/types/class';
+import { error } from 'console';
 
 function page() {
   const [studentClassList, setStudentClassList] = useState<SelectProps[]>([]);
@@ -19,6 +20,8 @@ function page() {
   const [isDate, setIsDate] = useState<boolean>()
   const [attendanceID, setAttendanceID] = useState<string>()
   const [classID, setClassID] = useState<string>()
+  const [handleSelectChange, setHandleSelectChange] = useState<boolean>()
+  const [oldStudentsData, setOldStudentsData] = useState<StudentProps>()
 
   const fetchClassData = async () => {
     try {
@@ -41,6 +44,10 @@ function page() {
       }));
   
       console.log("status list:", statusList);
+
+      const dbData = await getStudents(classID, date)
+      if (dbData == oldStudentsData) {}
+      else /* ui message */ throw new Error("yoklama verileri değişmiş");
   
       if (isDate) {
         await putStudentPresents(students.id, statusList);
@@ -72,6 +79,8 @@ function page() {
   
 
   useEffect(() => {fetchClassData();},[])
+
+  useEffect(() => {if (studentClass && branch) setHandleSelectChange(!handleSelectChange)},[studentClass, branch])
 
   useEffect(() => {
     setStudentClassList(getClasses(classList));
@@ -105,7 +114,7 @@ function page() {
   
       if (date == unix && check) students = await getStudents(classID, undefined);
       else students = await getStudents(classID, date);
-  
+      setOldStudentsData(students)
       setStudents(students);
       console.log("-----------------------");
       console.log(students);
@@ -116,7 +125,7 @@ function page() {
     };
     fetch();
     
-  }, [studentClass, branch, date]);
+  }, [handleSelectChange, date]);
   
   return (
     <main className='h-screen w-screen flex justify-center items-center'>
