@@ -139,8 +139,8 @@ export async function getAttendanceID(id: string | undefined, date: number | und
   try {
     const data = await fetchData(id, date);
     console.log("attendance get data", data);
-    return data?.id;
     console.log("attandanteData: ", data);
+    return data?.id;
   } catch (error) {
     console.error("Error fetching attendance data:", error);
     return undefined;
