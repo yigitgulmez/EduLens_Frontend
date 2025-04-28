@@ -3,6 +3,7 @@ import { ClasesResponseProps, ListClassesProps } from "@/types/class";
 const axios = require('axios');
 const url = 'http://localhost:8000/v1/classes/';
 const token = process.env.API_TOKEN
+var data: ClasesResponseProps[] | undefined
 
 async function fetchData(): Promise<ClasesResponseProps[]> {
   try {
@@ -42,7 +43,7 @@ async function fetchData(): Promise<ClasesResponseProps[]> {
 // ]
 
 export const getClassList = async () => {
-  const data = await fetchData();
+  data = await fetchData();
   data.sort((a, b) => a.branch.localeCompare(b.branch));
   return data.reduce((list: ListClassesProps, item: ClasesResponseProps) => {
     if (!list[item.level]) {
@@ -54,7 +55,7 @@ export const getClassList = async () => {
 }
 
 export async function getClassId(level: number | undefined, branch: string | undefined) {
-  const data = await fetchData();
+  if (!data) data = await fetchData();
   const item = data.find(item => item.level === level && item.branch === branch);
   console.log("item",item);
   return item ? item.id : "";
