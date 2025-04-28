@@ -43,9 +43,9 @@ function page() {
       console.log("status list:", statusList);
   
       if (isDate) {
-        await putStudentPresents(attendanceID, statusList);
+        await putStudentPresents(students.id, statusList);
       } else {
-        await postStudentPresents(attendanceID, statusList);
+        await postStudentPresents(classID, statusList);
       }
     } catch (error) {
       console.error("Error saving student presents:", error);
@@ -91,10 +91,6 @@ function page() {
       console.log("getClassId çağrılıyor");
       const classID = await getClassId(studentClass, branch);
       console.log("getClassId döndü", classID);
-      
-      console.log("getAttendanceID çağrılıyor");
-      const attendanceID = await getAttendanceID(classID, unix);
-      console.log("getAttendanceID döndü", attendanceID);
       
       console.log("checkDate çağrılıyor");
       const check = await checkDate(classID, unix);
