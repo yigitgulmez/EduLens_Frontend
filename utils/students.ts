@@ -101,6 +101,10 @@ export async function checkDate(id: string | undefined, date: number | undefined
   const data = await fetchData(id, date);
   return data !== undefined;
 }
+export async function getStudents(id: string | undefined, date: number | undefined): Promise<StudentProps | undefined> {
+  const data = await fetchData(id, date);
+  return data;
+}
 
 export async function postData(endpoint: string | undefined, data:StudentStatusProps[]) {
   try { //TODO classID
@@ -127,22 +131,6 @@ export async function putData(endpoint: string | undefined, data:StudentStatusPr
   } catch (error) {
     console.error('Hata:', error);
     throw error;
-  }
-}
-
-export async function getStudents(id: string | undefined, date: number | undefined): Promise<StudentProps | undefined> {
-  const data = await fetchData(id, date);
-  return data;
-}
-
-export async function getAttendanceID(id: string | undefined, date: number | undefined): Promise<string | undefined> {
-  try {
-    const data = await fetchData(id, date);
-    console.log("attendance get data", data);
-    return data?.id;
-  } catch (error) {
-    console.error("Error fetching attendance data:", error);
-    return undefined;
   }
 }
 
