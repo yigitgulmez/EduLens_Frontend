@@ -45,7 +45,7 @@ function page() {
       if (isDate) {
         await putStudentPresents(attendanceID, statusList);
       } else {
-        await postStudentPresents(classID, statusList);
+        await postStudentPresents(attendanceID, statusList);
       }
     } catch (error) {
       console.error("Error saving student presents:", error);
