@@ -1,7 +1,7 @@
 'use client'
 import Student from '@/components/Student';
 import { Button } from '@heroui/button';
-import { Alert } from '@heroui/alert';
+import { addToast } from "@heroui/toast";
 import { DatePicker } from "@heroui/date-picker";
 import { Select, SelectItem } from '@heroui/select';
 import { useEffect, useState } from 'react';
@@ -32,16 +32,26 @@ function page() {
   };
 
   const saveStudent = async () => {
+    console.log("save stıudents started");
     try {
+      console.log("try started");
       if (!students) {
         console.error("Öğrenci verisi bulunamadı."); 
+        addToast({
+          title: "Error",
+          description: "Öğrenci verisi bulunamadı.",
+          color: "danger",
+          variant: "flat",
+          timeout: 3000,
+          shouldShowTimeoutProgress: true,
+        })
         return;
       }
       const statusList: StudentStatusProps[] = students.students.map(student => ({
         studentID: student.id,
         isPresent: student.isPresent,
       }));
-  
+
       console.log("status list:", statusList);
 
       if (isDate) {
@@ -49,8 +59,24 @@ function page() {
       } else {
         await postStudentPresents(classID, statusList);
       }
+      addToast({
+        title: "Success",
+        description: "Yoklama başarıyla kaydedildi.",
+        color: "success",
+        variant: "flat",
+        timeout: 3000,
+        shouldShowTimeoutProgress: true,
+      })
     } catch (error) {
       console.error("Error saving student presents:", error);
+      addToast({
+        title: "Error",
+        description: "Yoklama kaydı yapılırken bir hata oluştu.",
+        color: "danger",
+        variant: "flat",
+        timeout: 3000,
+        shouldShowTimeoutProgress: true,
+      })
     }
   };
 
