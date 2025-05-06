@@ -1,9 +1,10 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { sendImage } from "@/utils/sendImage";
 
 const Camera = () => {
+  const [currentPhoto, setCurrentPhoto] = useState<string | null>(null)
   const videoRef = useRef<HTMLVideoElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
@@ -11,6 +12,7 @@ const Camera = () => {
     const enableCamera = async () => {
       try {
         const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+        console.log("kamera isteği atıldı")
         if (videoRef.current) {
           videoRef.current.srcObject = stream;
         }
@@ -37,17 +39,25 @@ const Camera = () => {
       ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
       const dataUrl = canvas.toDataURL("image/png");
 
-      sendImage(dataUrl); // utils fonksiyonunu çağırdık
+      sendImage(dataUrl);
+      // setCurrentPhoto(dataUrl);
     }, 500);
 
     return () => clearInterval(interval);
   }, []);
-
   return (
-    <div>
-      <video ref={videoRef} autoPlay playsInline />
-      <canvas ref={canvasRef} style={{ display: "none" }} />
-    </div>
+    // <div className="flex gap-10">
+      <div>
+        <video ref={videoRef} autoPlay playsInline />
+        <canvas ref={canvasRef} style={{ display: "none" }} />
+      </div>
+    //   <div>
+    //     <div style={{ flex: 0.5, display: 'flex', justifyContent: 'center' }}>
+    //       {currentPhoto && <img src={currentPhoto} alt="Captured" style={{ width: '100%', height: 'auto' }} />}
+    //     </div>
+    //   </div>
+    // </div>
+    
   );
 };
 
