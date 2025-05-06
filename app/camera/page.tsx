@@ -1,8 +1,13 @@
-import React from 'react'
+'use client'
+
+import Camera from "@/components/Camera"
+
 
 function page() {
   return (
-    <div>page</div>
+    <main className='h-screen w-screen flex justify-center items-center'>
+      <Camera/>
+    </main>
   )
 }
 
