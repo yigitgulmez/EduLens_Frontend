@@ -16,6 +16,7 @@ export default function Navbar() {
         <ButtonGroup color="primary" variant="shadow" radius="sm">
           <Button onPress={() => changePage('/rollcall')}>Roll Call</Button>
           <Button onPress={() => changePage('/camera')}>Camera</Button>
+          <Button onPress={() => changePage('/live-attendance')}>Live Attandance</Button>
         </ButtonGroup>
       </div>
     </div>
