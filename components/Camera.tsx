@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import { sendImage } from "@/utils/sendImage";
 
 const Camera = () => {
-  const [currentPhoto, setCurrentPhoto] = useState<string | null>(null)
+  // const [currentPhoto, setCurrentPhoto] = useState<string | null>(null)
   const videoRef = useRef<HTMLVideoElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
