@@ -18,7 +18,9 @@ export default function RootLayout({
       <body className="flex justify-center w-screen h-screen bg-bgMain">
         <Providers>
           <Navbar/>
-          {children}
+          <div className="md:scale-100 scale-90">
+            {children}
+          </div>
         </Providers>
       </body>
     </html>
