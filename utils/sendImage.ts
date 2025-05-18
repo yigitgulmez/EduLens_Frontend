@@ -1,6 +1,6 @@
 export const sendImage = async (base64Image: string) => {
   try {
-    const res = await fetch("/api/upload", {
+    const res = await fetch("https://dpdfk76v-8001.euw.devtunnels.ms/ws/rollcall", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
