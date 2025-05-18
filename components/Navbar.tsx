@@ -11,14 +11,14 @@ export default function Navbar() {
     }
   };
   return (
-    <div className="fixed flex items-center w-full h-16">
+    <nav className="fixed flex items-center w-full h-16 z-10">
+      <img src="/images/EduLensTextNonBG.png" alt="Edulens Text" width={150} className="fixed"/>
       <div className="flex justify-center items-center w-full">
-        <ButtonGroup color="primary" variant="shadow" radius="sm">
-          <Button onPress={() => changePage('/rollcall')}>Roll Call</Button>
-          <Button onPress={() => changePage('/camera')}>Camera</Button>
-          <Button onPress={() => changePage('/live-attendance')}>Live Attandance</Button>
-        </ButtonGroup>
+          <ButtonGroup color="primary" variant="shadow" radius="sm">
+            <Button onPress={() => changePage('/rollcall')}>Roll Call</Button>
+            <Button onPress={() => changePage('/live-attendance')}>Live Attandance</Button>
+          </ButtonGroup>
       </div>
-    </div>
+    </nav>
   )
 }

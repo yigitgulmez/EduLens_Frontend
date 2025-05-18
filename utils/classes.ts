@@ -1,7 +1,7 @@
 import { ClasesResponseProps, ListClassesProps } from "@/types/class";
 
 const axios = require('axios');
-const url = 'http://localhost:8000/v1/classes/';
+const url = 'https://dpdfk76v-8000.euw.devtunnels.ms/v1/classes/';
 const token = process.env.API_TOKEN
 var data: ClasesResponseProps[] | undefined
 
