@@ -1,12 +1,12 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { CameraProps } from "@/types/class";
+import React, { useEffect, useRef, useState } from "react";
 
-const Camera = () => {
+const Camera: React.FC<CameraProps> = ({ws}) => {
 const videoRef = useRef<HTMLVideoElement>(null);
 const canvasRef = useRef<HTMLCanvasElement>(null);
 const [isCameraReady, setIsCameraReady] = useState(false);
-const [ws, setWs] = useState<WebSocket | null>(null); // WebSocket bağlantısı için state
 
 useEffect(() => {
   const enableCamera = async () => {
@@ -23,26 +23,7 @@ useEffect(() => {
 
   enableCamera();
 
-  const socket = new WebSocket("wss://825f-78-182-158-130.ngrok-free.app/ws/rollcall");
 
-  socket.onopen = () => {
-    console.log("WebSocket bağlantısı kuruldu");
-    setWs(socket);
-  };
-
-  socket.onerror = (error) => {
-    console.error("WebSocket hata:", error);
-  };
-
-  socket.onclose = () => {
-    console.log("WebSocket bağlantısı kapandı");
-  };
-
-  return () => {
-    if (socket.readyState === WebSocket.OPEN) {
-      socket.close();
-    }
-  };
 }, []);
 
 useEffect(() => {
@@ -82,8 +63,8 @@ return (
     />
     
     <canvas ref={canvasRef} style={{ display: "none" }} />
+    {!isCameraReady && <h1 className="text-center text-7xl text-white">Kamera yükleniyor veya izin bekleniyor...</h1>}
   </div>
-);
-};
+);};
 
 export default Camera;

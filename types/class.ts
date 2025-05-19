@@ -36,12 +36,14 @@ export interface StudentComponentProps2 {
   id: string,
   avatar: string,
   name: string,
-  number: number,
-  studentClass: string,
-  branch: string,
+  info: string,
 }
 
 export interface StudentStatusProps {
   studentID: string,
   isPresent: boolean
 }
+
+export type CameraProps = {
+  ws: WebSocket | null;
+};
