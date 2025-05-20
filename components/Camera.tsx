@@ -63,7 +63,7 @@ return (
     />
     
     <canvas ref={canvasRef} style={{ display: "none" }} />
-    {!isCameraReady && <h1 className="text-center text-7xl text-white">Kamera yükleniyor veya izin bekleniyor...</h1>}
+    {!isCameraReady && <h1 className="text-center text-4xl sm:text-5xl md:text-6xl text-white">Kamera yükleniyor veya izin bekleniyor...</h1>}
   </div>
 );};
 
