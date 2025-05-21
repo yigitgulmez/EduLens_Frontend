@@ -11,7 +11,8 @@ export default function page() {
   const [student, setStudent] = useState<StudentComponentProps2 | null>(null);
 
   useEffect(() => {
-    const socket = new WebSocket('wss://dpdfk76v-8001.euw.devtunnels.ms/ws/rollcall');
+    const url = process.env.NEXT_WS_URL + '/ws/attendance/';
+    const socket = new WebSocket(url);
 
     socket.onopen = () => {
       console.log("WebSocket bağlantısı kuruldu");
@@ -21,7 +22,7 @@ export default function page() {
     socket.onmessage = (event) => {
       console.log("Sunucudan veri alındı:", event.data);
       const response = JSON.parse(event.data);
-      if (response.success === 200) {
+      if (response.status === 200) {
         setStudent({
           id: response.data.id,
           avatar: response.data.studentImage,
@@ -36,7 +37,7 @@ export default function page() {
           timeout: 1500,
           shouldShowTimeoutProgress: true,
         });
-      } else if (response.success === 404) {
+      } else if (response.status === 404) {
         setStudent(null);
         addToast({
           title: "Error",
