@@ -50,5 +50,5 @@
 
 ---
 
-## Backend
+## ⚙️ Backend
 The backend application for EduLens can be found [here](https://github.com/dogukanoklu/edulens-backend).
