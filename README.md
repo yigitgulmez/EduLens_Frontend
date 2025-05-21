@@ -1,12 +1,11 @@
 <div align="center"><img alt="Logo"  src="public/images/EduLensLogoText.png" width="400"/></div> 
 
 
-<h1 align="center">Tübitak 4006 B Project EduLens Frontend</h1>
-
+<h1 align="center"> Tübitak 4006 B Project EduLens Frontend </h1>
 
 ## ❗Note
 
-- You need to [EduLensBackend](https://github.com/dogukanoklu/edulens-backend)
+- You need to [EduLens Backend](https://github.com/dogukanoklu/edulens-backend)
 
    ```sh
    # /.env
