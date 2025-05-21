@@ -11,7 +11,8 @@ export default function page() {
   const [student, setStudent] = useState<StudentComponentProps2 | null>(null);
 
   useEffect(() => {
-    const socket = new WebSocket('wss://dpdfk76v-8001.euw.devtunnels.ms/ws/rollcall');
+    const url = process.env.NEXT_WS_URL + '/ws/attendance/';
+    const socket = new WebSocket(url);
 
     socket.onopen = () => {
       console.log("WebSocket bağlantısı kuruldu");

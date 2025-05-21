@@ -135,6 +135,11 @@ function page() {
   
       if (date == unix && check) students = await getStudents(classID, undefined);
       else students = await getStudents(classID, date);
+
+      if (students) {
+        students.students.sort((a, b) => a.schoolNumber - b.schoolNumber);
+      }
+
       setStudents(students);
       console.log("-----------------------");
       console.log(students);
