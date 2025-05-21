@@ -1,2 +1,2 @@
-# EduLens
-Front-End of TUBITAK 4000B project
+# Tübitak 4006 B Project EduLens Backend
+---

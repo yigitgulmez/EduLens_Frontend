@@ -27,26 +27,26 @@ export default function page() {
           id: response.data.id,
           avatar: response.data.studentImage,
           name: response.data.firstName + " " + response.data.lastName,
-          info: response.data.schollNumber + " " + response.data.level + " - " + response.data.branch,
+          info: response.data.schoolNumber + " " + response.data.level + " - " + response.data.branch,
         });
-        addToast({
-          title: "Success",
-          description: "Öğrenci bulundu.",
-          color: "success",
-          variant: "flat",
-          timeout: 1500,
-          shouldShowTimeoutProgress: true,
-        });
+        // addToast({
+        //   title: "Success",
+        //   description: "Öğrenci bulundu.",
+        //   color: "success",
+        //   variant: "flat",
+        //   timeout: 1500,
+        //   shouldShowTimeoutProgress: true,
+        // });add
       } else if (response.status === 404) {
         setStudent(null);
-        addToast({
-          title: "Error",
-          description: "Öğrenci bulunamadı.",
-          color: "danger",
-          variant: "flat",
-          timeout: 1500,
-          shouldShowTimeoutProgress: true,
-        });
+        // addToast({
+        //   title: "Error",
+        //   description: "Öğrenci bulunamadı.",
+        //   color: "danger",
+        //   variant: "flat",
+        //   timeout: 1500,
+        //   shouldShowTimeoutProgress: true,
+        // });
       }
     };
 
