@@ -3,8 +3,6 @@
 
 <h1 align="center">Tübitak 4006 B Project EduLens Frontend</h1>
 
----
-
 
 ## ❗Note
 
@@ -12,8 +10,8 @@
 
    ```sh
    # /.env
-  NEXT_PUBLIC_API_URL=http://localhost:8000
-  NEXT_PUBLIC_WS_URL=wss://dpdfk76v-8001.euw.devtunnels.ms
+  NEXT_PUBLIC_API_URL=
+  NEXT_PUBLIC_WS_URL=
    ```
 
 
@@ -54,5 +52,4 @@
 ---
 
 ## Backend
----
 The backend application for EduLens can be found [here](https://github.com/dogukanoklu/edulens-backend).
