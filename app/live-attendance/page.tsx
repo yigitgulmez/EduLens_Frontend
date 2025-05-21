@@ -11,7 +11,7 @@ export default function page() {
   const [student, setStudent] = useState<StudentComponentProps2 | null>(null);
 
   useEffect(() => {
-    const url = process.env.NEXT_WS_URL + '/ws/attendance/';
+    const url = process.env.NEXT_PUBLIC_WS_URL + '/ws/attendance/';
     const socket = new WebSocket(url);
 
     socket.onopen = () => {

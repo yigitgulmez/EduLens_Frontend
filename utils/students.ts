@@ -1,7 +1,7 @@
 import { StudentProps, StudentStatusProps } from "@/types/class";
 
 const axios = require('axios');
-const url = process.env.NEXT_API_URL + '/v1/attendance/';
+const url = process.env.NEXT_PUBLIC_API_URL + '/v1/attendance/';
 const token = process.env.API_TOKEN
 async function fetchData(id:string | undefined, date:number | undefined): Promise<StudentProps | undefined> {
   try {
